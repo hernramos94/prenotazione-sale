@@ -26,5 +26,23 @@ class TestPrenotazioniContigue(unittest.TestCase):
         self.assertEqual(id_seconda, 2)
 
 
+class TestCapienzaEsatta(unittest.TestCase):
+    def test_capienza_esatta_accettata(self):
+        # Preparazione
+        agenda = Agenda()
+        agenda.aggiungi_sala(Sala("R1", "Sala riunioni", 10))
+        # oggi è lunedì, il giorno dopo è martedì: data valida e non domenica
+        oggi = date(2026, 11, 30)
+        martedi = date(2026, 12, 1)
+        riunione = Prenotazione("R1", martedi, "09:00", "10:00", "Mario Rossi", 10)
+
+        # Azione
+        id_riunione = agenda.prenota(riunione, oggi=oggi)
+
+        # Verifica
+        # 10 persone in una sala da 10 posti devono essere accettate (id 1)
+        self.assertEqual(id_riunione, 1)
+
+
 if __name__ == "__main__":
     unittest.main()
